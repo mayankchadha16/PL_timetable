@@ -16,3 +16,14 @@ let group_by_course acc (course, student) =
 let course_to_student student_to_course =
   let inverted = List.map invert_student_to_course student_to_course |> List.concat in
   List.fold_left group_by_course [] inverted
+
+let create_interference_graph course_to_student_list =
+  let edges = List.fold_left (fun acc (course1, students1) ->
+    List.fold_left (fun acc' (course2, students2) ->
+      if course1 < course2 && List.exists (fun x -> List.mem x students2) students1 then
+        (course1, course2) :: acc'
+      else
+        acc'
+    ) acc course_to_student_list
+  ) [] course_to_student_list in
+  List.rev edges
