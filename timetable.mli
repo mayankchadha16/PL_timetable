@@ -1,3 +1,4 @@
+val read_list : unit -> int list 
 
 (* PREPROCESSING *)
 val invert_student_to_course : 'a * 'b list -> ('b * 'a) list

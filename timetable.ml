@@ -1,5 +1,9 @@
-let list_of_students = [1;2;3]
+let rec read_list () =
+  let input = read_line () in
+    List.map int_of_string (String.split_on_char ';' input)
+
 let list_of_courses = [1;2;3]
+let list_of_students = [1;2;3]
 
 let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
 
@@ -40,11 +44,10 @@ let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
 
 (* ############################################################################################################## *)
 
-(* TESTED WORKING *)
-(* let course_to_student_list = course_to_student student_to_course
-let edge_list = create_inference_graph course_to_student_list *)
+let course_to_student_list = course_to_student student_to_course
+let edge_list = create_inference_graph course_to_student_list
 
-(* CHAINTIN YET TO BE IMPLEMENTED *)
+(* CHAITIN YET TO BE IMPLEMENTED *)
 let colored_graph = [(1, 0); (2, 1); (3, 0)]
 
 (* ############################################################################################################## *)
@@ -58,11 +61,18 @@ let colored_graph = [(1, 0); (2, 1); (3, 0)]
     List.iter (fun slot ->
       (* Filter out the courses that belong to the current slot *)
       let courses = List.filter (fun (_, color) -> color = slot) colored_graph |> List.map fst in
-      Printf.printf "|\tSlot %d: %s\n" slot (String.concat ", " (List.map string_of_int courses))
+      Printf.printf "|\tSlot %d : %s\n" slot (String.concat ", " (List.map string_of_int courses))
     ) slots;;
 
 (* ############################################################################################################## *)
+
+
+(* ############################################################################################################## *)
+
+print_endline "\n#############################################";;
+print_endline "| Final TimeTable using the Scheduler:         ";;
 print_endline "#############################################";;
-print_endline "| Final TimeTable using the Scheduler:\t";;
 print_timetable colored_graph;;
-print_endline "#############################################";;
+print_endline "#############################################\n";;
+
+(* ############################################################################################################## *)
