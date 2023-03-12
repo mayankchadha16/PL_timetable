@@ -1,10 +1,12 @@
+(*Mayank Chada Balaji Sankapal*)
+
 let rec read_list () =
   let input = read_line () in
     List.map int_of_string (String.split_on_char ';' input)
 
 let list_of_courses = [1;2;3]
 let list_of_students = [1;2;3]
-
+ 
 let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
 
 
