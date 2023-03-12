@@ -10,7 +10,6 @@ let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
 
 (* PREPROCESSING *)
 (* ############################################################################################################## *)
-
   let invert_student_to_course (student, courses) =
     List.map (fun course -> (course, student)) courses
   
@@ -25,12 +24,12 @@ let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
     let inverted = List.map invert_student_to_course student_to_course |> List.concat in
     List.fold_left group_by_course [] inverted
 
+  let course_to_student_list = course_to_student student_to_course
 (* ############################################################################################################## *)
 
 
 (* INFERENCE GRAPH *)
 (* ############################################################################################################## *)
-
   let create_inference_graph course_to_student_list =
     let edges = List.fold_left (fun acc (course1, students1) ->
       List.fold_left (fun acc' (course2, students2) ->
@@ -42,37 +41,39 @@ let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
           ) [] course_to_student_list in
           List.rev edges
 
+  let edge_list = create_inference_graph course_to_student_list
 (* ############################################################################################################## *)
 
-let course_to_student_list = course_to_student student_to_course
-let edge_list = create_inference_graph course_to_student_list
 
-(* CHAITIN YET TO BE IMPLEMENTED *)
+(* CHAITIN *)
+(* ############################################################################################################## *)
 let colored_graph = [(1, 0); (2, 1); (3, 0)]
-
 (* ############################################################################################################## *)
 
 
 (* PRINT TIMETABLE (Converter) *)
 (* ############################################################################################################## *)
+let get_courses_by_slot colored_graph slot =
+  List.filter (fun (_, color) -> color = slot) colored_graph |> List.map fst
 
-  let print_timetable colored_graph =
-    let slots = List.map snd colored_graph |> List.sort_uniq compare in
-    List.iter (fun slot ->
-      (* Filter out the courses that belong to the current slot *)
-      let courses = List.filter (fun (_, color) -> color = slot) colored_graph |> List.map fst in
-      Printf.printf "|\tSlot %d : %s\n" slot (String.concat ", " (List.map string_of_int courses))
-    ) slots;;
+let format_slot slot courses =
+  Printf.sprintf "|\tSlot %d : %s" slot (String.concat ", " (List.map string_of_int courses))
 
+let print_slot slot colored_graph =
+  let courses = get_courses_by_slot colored_graph slot in
+  let formatted_slot = format_slot slot courses in
+  print_endline formatted_slot
+
+let print_timetable colored_graph =
+  let slots = List.map snd colored_graph |> List.sort_uniq compare in
+  List.iter (fun slot -> print_slot slot colored_graph) slots;;
 (* ############################################################################################################## *)
 
 
 (* ############################################################################################################## *)
-
 print_endline "\n#############################################";;
 print_endline "| Final TimeTable using the Scheduler:         ";;
 print_endline "#############################################";;
 print_timetable colored_graph;;
 print_endline "#############################################\n";;
-
 (* ############################################################################################################## *)

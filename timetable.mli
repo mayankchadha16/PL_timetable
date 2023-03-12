@@ -9,4 +9,7 @@ val course_to_student : ('a * 'b list) list -> ('b * 'a list) list
 val create_inference_graph : ('a * 'b list) list -> ('a * 'a) list
 
 (* PRINT TIMETABLE (Converter) *)
+val get_courses_by_slot : ('a * 'b) list -> 'b -> 'a list
+val format_slot : int -> int list -> string
+val print_slot : int -> (int * int) list -> unit
 val print_timetable : (int * int) list -> unit
