@@ -58,10 +58,11 @@ let colored_graph = [(1, 0); (2, 1); (3, 0)]
     List.iter (fun slot ->
       (* Filter out the courses that belong to the current slot *)
       let courses = List.filter (fun (_, color) -> color = slot) colored_graph |> List.map fst in
-      Printf.printf "\tSlot %d: %s\n" slot (String.concat ", " (List.map string_of_int courses))
+      Printf.printf "|\tSlot %d: %s\n" slot (String.concat ", " (List.map string_of_int courses))
     ) slots;;
 
 (* ############################################################################################################## *)
-    
-print_endline "\nFinal TimeTable using the Scheduler:";;
-print_timetable colored_graph
+print_endline "#############################################";;
+print_endline "| Final TimeTable using the Scheduler:\t";;
+print_timetable colored_graph;;
+print_endline "#############################################";;
