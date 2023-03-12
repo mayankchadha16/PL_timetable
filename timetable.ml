@@ -40,9 +40,9 @@ let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
 
 (* ############################################################################################################## *)
 
-
-let course_to_student_list = course_to_student student_to_course
-let edge_list = create_inference_graph course_to_student_list
+(* TESTED WORKING *)
+(* let course_to_student_list = course_to_student student_to_course
+let edge_list = create_inference_graph course_to_student_list *)
 
 (* CHAINTIN YET TO BE IMPLEMENTED *)
 let colored_graph = [(1, 0); (2, 1); (3, 0)]
@@ -58,9 +58,10 @@ let colored_graph = [(1, 0); (2, 1); (3, 0)]
     List.iter (fun slot ->
       (* Filter out the courses that belong to the current slot *)
       let courses = List.filter (fun (_, color) -> color = slot) colored_graph |> List.map fst in
-      Printf.printf "Slot %d: %s\n" slot (String.concat ", " (List.map string_of_int courses))
+      Printf.printf "\tSlot %d: %s\n" slot (String.concat ", " (List.map string_of_int courses))
     ) slots;;
 
 (* ############################################################################################################## *)
     
+print_endline "\nFinal TimeTable using the Scheduler:";;
 print_timetable colored_graph
