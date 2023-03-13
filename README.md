@@ -1,11 +1,8 @@
-# PL_timetable
+# Contributors
+#### Mayank Chadha (IMT2020045)
+#### Balaji Sankapal (IMT2020090)
 
-## Contributors
-### Mayank Chadha (IMT2020045)
-### Balaji Sankapal (IMT2020090)
-<br/>
-
-## Running the Code
+# Running the Code
 
 ### Compile
 ```bash
@@ -18,7 +15,7 @@ $ ./app
 $ make clean
 ```
 
-## Input Data Handling
+# Input Data Handling
 ### Reading from Text File
 In our initial approach, we successfully read input data line by line from a text file. However, we encountered challenges when trying to convert string inputs into lists. As a result, we had to abandon this approach and seek alternative solutions.
 
