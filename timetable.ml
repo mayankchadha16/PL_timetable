@@ -13,14 +13,6 @@ let read_from_txt_file filename =
     close_in chan;
     List.rev !lines ;;
 
-let read_checker = read_from_txt_file "input.txt"
-
-let list_of_courses = [1;2;3]
-let list_of_students = [1;2;3]
-
-let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
-
-
 (* PREPROCESSING *)
 (* ############################################################################################################## *)
   let invert_student_to_course (student, courses) =
@@ -39,7 +31,6 @@ let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
     let inverted = List.map invert_student_to_course student_to_course |> List.concat in
     List.fold_left group_by_course [] inverted
 
-  let course_to_student_list = course_to_student student_to_course
 (* ############################################################################################################## *)
 
 
@@ -61,14 +52,39 @@ let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
           ) acc course_to_student_list
           ) [] course_to_student_list in
           edges
-
-  let edge_list = create_inference_graph course_to_student_list
 (* ############################################################################################################## *)
 
 
-(* CHAITIN *)
+(* GRAPH COLORING *)
 (* ############################################################################################################## *)
-let colored_graph = [(1, 0); (2, 1); (3, 0)]
+let adj_nodes e n =
+  List.fold_left
+    (fun acc (x, y) -> if x = n then y :: acc else if y = n then x :: acc else acc) [] e
+
+let adj_colors output e n =
+  List.fold_left
+    (fun acc node -> 
+      match List.assoc_opt node output with
+      | Some color -> color :: acc
+      | None -> acc) [] (adj_nodes e n)
+
+let first_unused_color used_colors =
+  let rec aux c =
+    if List.mem c used_colors then aux (c + 1) else c
+  in
+  aux 0
+
+let color_nodes e =
+  let nodes = List.sort_uniq compare (List.flatten (List.map (fun (x, y) -> [x; y]) e)) in
+  let rec aux output remaining =
+    match remaining with
+    | [] -> output
+    | n :: ns ->
+      let used_colors = adj_colors output e n in
+      let new_color = first_unused_color used_colors in
+      aux ((n, new_color) :: output) ns
+  in
+  aux [] nodes
 (* ############################################################################################################## *)
 
 
@@ -78,23 +94,34 @@ let get_courses_by_slot colored_graph slot =
   List.filter (fun (_, color) -> color = slot) colored_graph |> List.map fst
 
 let format_slot slot courses =
-  Printf.sprintf "|\tSlot %d : %s" slot (String.concat ", " (List.map string_of_int courses))
-
+  "|\tSlot " ^ string_of_int slot ^ " : " ^ String.concat ", " (List.map string_of_int courses)
+  
 let print_slot slot colored_graph =
   let courses = get_courses_by_slot colored_graph slot in
   let formatted_slot = format_slot slot courses in
-  print_endline formatted_slot
+  print_endline formatted_slot  
 
 let print_timetable colored_graph =
   let slots = List.map snd colored_graph |> List.sort_uniq compare in
   List.iter (fun slot -> print_slot slot colored_graph) slots;;
+
+let printer colored_graph= 
+  print_endline "\n#############################################";
+  print_endline "| Final TimeTable using the Scheduler:         ";
+  print_endline "#############################################";
+  print_timetable colored_graph;
+  print_endline "#############################################\n"
 (* ############################################################################################################## *)
 
+(* INPUTS HERE *)
+let list_of_courses = [1; 2; 3]
+let list_of_students = [1; 2; 3]
+let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
 
-(* ############################################################################################################## *)
-print_endline "\n#############################################";;
-print_endline "| Final TimeTable using the Scheduler:         ";;
-print_endline "#############################################";;
-print_timetable colored_graph;;
-print_endline "#############################################\n";;
-(* ############################################################################################################## *)
+let t1() = 
+  let course_to_student_list = course_to_student student_to_course in
+  let edge_list = create_inference_graph course_to_student_list in
+  let colored_graph = color_nodes edge_list in
+  printer colored_graph;;
+  
+t1()
