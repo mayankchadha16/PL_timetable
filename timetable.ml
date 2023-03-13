@@ -27,11 +27,13 @@ let student_to_course = [(1, [1; 2]); (2, [2; 3]); (3, [1])]
     List.map (fun course -> (course, student)) courses
   
   let group_by_course acc (course, student) =
-    let students = match List.assoc_opt course acc with
-    | Some students -> students
-    | None -> []
-  in
-  (course, student :: students) :: List.remove_assoc course acc
+    let rec update_course = function
+      | [] -> [(course, [student])]
+      | (c, students) :: rest ->
+        if c = course then (c, student :: students) :: rest
+        else (c, students) :: update_course rest
+    in
+    update_course acc
   
   let course_to_student student_to_course =
     let inverted = List.map invert_student_to_course student_to_course |> List.concat in
