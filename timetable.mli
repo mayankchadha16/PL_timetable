@@ -10,6 +10,9 @@ val has_common_students : 'a list -> 'a list -> bool
 val is_edge_valid : 'a -> 'b list -> 'a -> 'b list -> bool
 val create_inference_graph : ('a * 'b list) list -> ('a * 'a) list
 
+(* CHAITIN *)
+
+
 (* PRINT TIMETABLE (Converter) *)
 val get_courses_by_slot : ('a * 'b) list -> 'b -> 'a list
 val format_slot : int -> int list -> string
