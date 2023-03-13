@@ -1,5 +1,11 @@
-app : timetable.cmo preprocessing.cmo inference.cmo coloring.cmo convert.cmo
-	ocamlc -o app preprocessing.cmo inference.cmo coloring.cmo convert.cmo timetable.cmo 
+app : timetable.cmo preprocessing.cmo inference.cmo coloring.cmo convert.cmo user_input.cmo
+	ocamlc -o app user_input.cmo preprocessing.cmo inference.cmo coloring.cmo convert.cmo timetable.cmo 
+
+user_input.cmo : user_input.ml user_input.cmi
+	ocamlc -c user_input.ml
+
+user_input.cmi : user_input.mli
+	ocamlc -c user_input.mli
 
 preprocessing.cmo : preprocessing.ml preprocessing.cmi
 	ocamlc -c preprocessing.ml
@@ -28,7 +34,7 @@ convert.cmi : convert.mli
 timetable.cmo : timetable.ml timetable.cmi 
 	ocamlc -c timetable.ml
 
-timetable.cmi : timetable.mli preprocessing.cmi inference.cmi coloring.cmi convert.cmi
+timetable.cmi : timetable.mli user_input.cmi preprocessing.cmi inference.cmi coloring.cmi convert.cmi 
 	ocamlc -c timetable.mli
 
 clean :

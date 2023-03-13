@@ -27,5 +27,5 @@ let color_nodes e =
       let new_color = first_unused_color used_colors in
       aux ((n, new_color) :: output) ns
   in
-  aux [] nodes
+  List.rev (aux [] nodes)
 (* ############################################################################################################## *)
