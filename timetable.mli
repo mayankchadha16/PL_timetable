@@ -1,4 +1,5 @@
 val read_list : unit -> int list 
+val read_from_txt_file : string -> string list
 
 (* PREPROCESSING *)
 val invert_student_to_course : 'a * 'b list -> ('b * 'a) list
