@@ -25,7 +25,7 @@ We were able to successfully obtain input data from the terminal for *list_of_co
 ### Final Outcome 
 We will **change the inputs in the *timetable.ml* files before running the code** as we are maintaining uniformity since the other option of taking *list_of_courses* and *list_of_student* as input from terminal and *student_to_course* data by altering the inputs in the *timetable.ml* looks clumsy.
 
-# Input Data Handling
+# Graph Coloring Techniques
 
 #### Chaitin
 #### Greedy Method ([Described Here](https://www.geeksforgeeks.org/graph-coloring-set-2-greedy-algorithm/))
