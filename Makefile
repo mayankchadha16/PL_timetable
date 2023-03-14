@@ -25,6 +25,12 @@ coloring.cmo : coloring.ml coloring.cmi
 coloring.cmi : coloring.mli
 	ocamlc -c coloring.mli
 
+chaitin.cmo : chaitin.ml chaitin.cmi
+	ocamlc -c chaitin.ml
+
+chaitin.cmi : chaitin.mli
+	ocamlc -c chaitin.mli
+
 convert.cmo : convert.ml convert.cmi
 	ocamlc -c convert.ml
 
