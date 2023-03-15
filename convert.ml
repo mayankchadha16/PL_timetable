@@ -4,7 +4,7 @@ let get_courses_by_slot colored_graph slot =
   List.filter (fun (_, color) -> color = slot) colored_graph |> List.map fst
 
 let format_slot slot courses =
-  "|\tSlot " ^ string_of_int slot ^ " : " ^ String.concat ", " (List.map string_of_int courses)
+  "|\tSlot " ^ string_of_int (slot+1) ^ " : " ^ String.concat ", " (List.map string_of_int courses)
   
 let print_slot slot colored_graph =
   let courses = get_courses_by_slot colored_graph slot in
